@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Musas Salón de Belleza Spa | Errázuriz 166, Buin</title>
+  <meta name="description" content="Centro de Estética y Salón de Belleza en Buin. Cortes, Balayage, Laminado de Cejas, Lifting de Pestañas, Limpieza Facial Profunda por $20.000, Uñas Acrílicas y Maquillaje. ¡Reserva tu hora online!">
+  <meta name="keywords" content="Musas salón de belleza spa, Buin, peluquería Buin, balayage Buin, limpieza facial Buin, uñas acrílicas, lifting pestañas, Errázuriz 166">
+  
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="announcement-bar">
+    <span>🌸 ¡Promoción del Mes! Limpieza Facial Profunda por solo <strong>$20.000.-</strong></span>
+    <span class="badge-promo">Reservar Hoy</span>
+  </div>
+
+  <!-- Header / Navigation -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#" class="brand-logo">
+        <div class="logo-icon"><i class="fas fa-crown"></i></div>
+        <div class="brand-name">
+          <span class="brand-title">Musas</span>
+          <span class="brand-subtitle">Salón & Spa Buin</span>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#inicio" class="nav-link">Inicio</a></li>
+          <li><a href="#ofertas" class="nav-link">Ofertas</a></li>
+          <li><a href="#servicios" class="nav-link">Servicios</a></li>
+          <li><a href="#opiniones" class="nav-link">Opiniones</a></li>
+          <li><a href="#galeria" class="nav-link">Galería IG</a></li>
+          <li><a href="#ubicacion" class="nav-link">Ubicación</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn btn-admin" onclick="toggleAdminView()" title="Acceso al local">
+          <i class="fas fa-store"></i> Modo Local / Admin
+        </button>
+        <button class="btn btn-primary" onclick="openBookingModal()">
+          <i class="far fa-calendar-alt"></i> Agendar Hora
+        </button>
+        <button class="mobile-toggle" id="mobileToggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="inicio">
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-tag">
+          <div class="google-stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <span>5.0 en Google (5 Opiniones) • Buin</span>
+        </div>
+
+        <h1 class="hero-title">Resalta tu belleza única con atención experta en <span>Buin</span></h1>
+        
+        <p class="hero-description">
+          En <strong>Musas Salón de Belleza Spa</strong> transformamos tu imagen con técnicas vanguardistas de peluquería, manicuría, diseño de cejas, estética facial y tratamientos relajantes.
+        </p>
+
+        <div class="hero-ctas">
+          <button class="btn btn-primary" onclick="openBookingModal()">
+            <i class="fas fa-magic"></i> Reservar Cita Online
+          </button>
+          <a href="https://wa.me/56981542607" target="_blank" class="btn btn-whatsapp">
+            <i class="fab fa-whatsapp"></i> Consultas por WhatsApp
+          </a>
+        </div>
+
+        <div class="hero-features">
+          <div class="feature-item">
+            <i class="fas fa-check-circle"></i> <span>Atención Personalizada</span>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-map-marker-alt"></i> <span>Errázuriz 166, Buin</span>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-clock"></i> <span>Lun a Sáb: 10:30 a 19:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-media">
+        <div class="hero-image-wrapper">
+          <img src="assets/hero.png" alt="Musas Salón de Belleza Spa en Buin">
+        </div>
+        <div class="floating-card-promo">
+          <div class="icon-box"><i class="fas fa-sparkles"></i></div>
+          <div class="promo-info">
+            <h4>Limpieza Facial Profunda</h4>
+            <p>1 vez al mes para una piel radiante</p>
+            <div class="promo-price">$20.000.-</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Offer Banner -->
+  <section class="featured-offer-section" id="ofertas">
+    <div class="featured-offer-card">
+      <div class="offer-content">
+        <span class="offer-tag">Promoción Especial del Mes</span>
+        <h2 class="offer-title">Limpieza Facial Profunda</h2>
+        <p class="offer-desc">
+          Luce una piel fresca, renovada y suave. Incluye exfoliación, desincrustación de poros, vapor ozono, mascarilla de nutrientes y masaje facial tonificante.
+        </p>
+        <div class="offer-price-box">
+          <span class="price-regular">$30.000</span>
+          <span class="price-discount">$20.000.-</span>
+        </div>
+        <div>
+          <button class="btn btn-primary" onclick="openBookingModal('s7')">
+            <i class="fas fa-gift"></i> Reservar Promoción Facial
+          </button>
+        </div>
+      </div>
+      <div class="offer-media">
+        <img src="assets/facial.png" alt="Tratamiento de Limpieza Facial en Musas Spa">
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="services-section" id="servicios">
+    <div class="section-header">
+      <span class="section-subtitle">Menú de Experiencias</span>
+      <h2 class="section-title">Nuestros Servicios de Estética</h2>
+      <p class="section-description">
+        Selecciona la especialidad que buscas para consentirte con los mejores insumos y profesionales.
+      </p>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="category-tabs">
+      <button class="tab-btn active" onclick="filterCategory('all', this)">Todos los Servicios</button>
+      <button class="tab-btn" onclick="filterCategory('cabello', this)"><i class="fas fa-cut"></i> Cabello & Peluquería</button>
+      <button class="tab-btn" onclick="filterCategory('cejas-pestanas', this)"><i class="fas fa-eye"></i> Cejas & Pestañas</button>
+      <button class="tab-btn" onclick="filterCategory('faciales-spa', this)"><i class="fas fa-spa"></i> Faciales & Spa</button>
+      <button class="tab-btn" onclick="filterCategory('unas', this)"><i class="fas fa-hand-sparkles"></i> Manicura & Uñas</button>
+      <button class="tab-btn" onclick="filterCategory('novias', this)"><i class="fas fa-heart"></i> Novias & Eventos</button>
+    </div>
+
+    <!-- Services Dynamic Grid -->
+    <div class="services-grid" id="servicesGrid">
+      <!-- Generated via app.js -->
+    </div>
+  </section>
+
+  <!-- Google Reviews & Testimonials Section -->
+  <section class="reviews-section" id="opiniones">
+    <div class="reviews-container">
+      <div class="section-header">
+        <span class="section-subtitle">Opiniones Reales</span>
+        <h2 class="section-title">Lo que dicen nuestras clientas</h2>
+      </div>
+
+      <div class="reviews-summary-card">
+        <div class="summary-score">
+          <div class="score-num">5.0</div>
+          <div class="score-info">
+            <div class="google-stars">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p>Calificación Excelente en Google Maps</p>
+            <span>Basado en 5 opiniones verificadas</span>
+          </div>
+        </div>
+        <a href="https://www.google.com/maps" target="_blank" class="btn btn-outline">
+          <i class="fab fa-google"></i> Ver en Google Maps
+        </a>
+      </div>
+
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="review-header">
+            <div class="avatar-circle">M</div>
+            <div>
+              <div class="reviewer-name">María José Fernández</div>
+              <div class="review-date">Hace 2 semanas • Google</div>
+            </div>
+          </div>
+          <div class="google-stars" style="margin-bottom: 10px;">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <p class="review-text">"El mejor salón de Buin. Me hice balayage y el cabello me quedó suave y con un brillo increíble. El ambiente en Errázuriz 166 es súper acogedor."</p>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <div class="avatar-circle">C</div>
+            <div>
+              <div class="reviewer-name">Carolina Araya</div>
+              <div class="review-date">Hace 1 mes • Google</div>
+            </div>
+          </div>
+          <div class="google-stars" style="margin-bottom: 10px;">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <p class="review-text">"La limpieza facial profunda por $20.000 es excelente. Mi piel cambió totalmente de textura. ¡Muy recomendadas las chicas de Musas!"</p>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <div class="avatar-circle">F</div>
+            <div>
+              <div class="reviewer-name">Francisca Morales</div>
+              <div class="review-date">Hace 3 semanas • Google</div>
+            </div>
+          </div>
+          <div class="google-stars" style="margin-bottom: 10px;">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <p class="review-text">"Laminado de cejas y uñas acrílicas perfectas. Muy puntuales con la reserva y una atención 10/10."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Instagram Feed Section -->
+  <section class="gallery-section" id="galeria">
+    <div class="section-header">
+      <span class="section-subtitle">@musassalondebelleza</span>
+      <h2 class="section-title">Síguenos en Instagram</h2>
+      <p class="section-description">Más de 820 seguidoras inspiradas con nuestros trabajos diarios.</p>
+    </div>
+
+    <div class="instagram-grid">
+      <div class="insta-card">
+        <img src="assets/balayage.png" alt="Balayage Musas Buin">
+        <div class="insta-overlay">
+          <i class="fab fa-instagram" style="font-size: 2rem;"></i>
+          <span>Balayage & Nutrición</span>
+        </div>
+      </div>
+      <div class="insta-card">
+        <img src="assets/nails.png" alt="Uñas Acrílicas Nude & Rose Gold">
+        <div class="insta-overlay">
+          <i class="fab fa-instagram" style="font-size: 2rem;"></i>
+          <span>Uñas Acrílicas Elegantes</span>
+        </div>
+      </div>
+      <div class="insta-card">
+        <img src="assets/facial.png" alt="Limpieza Facial Profunda Spa">
+        <div class="insta-overlay">
+          <i class="fab fa-instagram" style="font-size: 2rem;"></i>
+          <span>Limpieza Facial $20.000</span>
+        </div>
+      </div>
+      <div class="insta-card">
+        <img src="assets/hero.png" alt="Ambiente Musas Salón Buin">
+        <div class="insta-overlay">
+          <i class="fab fa-instagram" style="font-size: 2rem;"></i>
+          <span>Instalaciones en Buin</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 32px;">
+      <a href="https://www.instagram.com/musassalondebelleza/" target="_blank" class="btn btn-primary">
+        <i class="fab fa-instagram"></i> Ver Instagram @musassalondebelleza
+      </a>
+    </div>
+  </section>
+
+  <!-- Location & Map Section -->
+  <section class="location-section" id="ubicacion">
+    <div class="location-container">
+      <div class="location-info-card">
+        <span class="section-subtitle">Visítanos</span>
+        <h2 class="section-title" style="margin-bottom: 24px;">Encuéntranos en Buin</h2>
+
+        <div class="info-item">
+          <div class="icon-wrapper"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <h4>Dirección</h4>
+            <p>Errázuriz 166, 9450000 Buin, Región Metropolitana, Chile.</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="icon-wrapper"><i class="fas fa-clock"></i></div>
+          <div>
+            <h4>Horarios de Atención</h4>
+            <p>Lunes a Sábado: 10:30 hrs a 19:00 / 20:00 hrs</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="icon-wrapper"><i class="fas fa-phone-alt"></i></div>
+          <div>
+            <h4>Teléfonos de Contacto</h4>
+            <p>+56 9 8154 2607 / +56 9 6555 9401</p>
+          </div>
+        </div>
+
+        <div style="margin-top: 28px;">
+          <a href="https://maps.google.com/?q=Errazuriz+166+Buin" target="_blank" class="btn btn-primary">
+            <i class="fas fa-directions"></i> Cómo Llegar en Google Maps
+          </a>
+        </div>
+      </div>
+
+      <div class="map-wrapper">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3318.847528340182!2d-70.736805!3d-33.731456!2m3!1f0!2f0!3f0!2m3!1i1024!2i768!4f13.1!3m3!1m2!1s0x966336e4f3a74917%3A0xb3cf2349e5d48123!2sErr%C3%A1zuriz%20166%2C%20Buin%2C%20Regi%C3%B3n%20Metropolitana!5e0!3m2!1ses!2scl!4v1700000000000!5m2!1ses!2scl" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCAL SALÓN ADMIN PANEL & CHILEAN CALENDAR -->
+  <section class="admin-section" id="adminSection">
+    <div class="admin-header">
+      <div class="admin-title-group">
+        <h2><i class="fas fa-store-alt"></i> Panel Local - Musas Salón de Belleza</h2>
+        <p>Gestión interna de citas agendadas, calendario chileno y edición autoadministrable de servicios.</p>
+      </div>
+      <div>
+        <button class="btn btn-outline" onclick="toggleAdminView()">
+          <i class="fas fa-times"></i> Cerrar Vista Admin
+        </button>
+      </div>
+    </div>
+
+    <!-- Admin Tab Controls -->
+    <div class="admin-tab-nav">
+      <button class="admin-tab-btn active" onclick="switchAdminTab('calendar', this)">
+        <i class="far fa-calendar-alt"></i> Calendario Chileno de Citas
+      </button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('services', this)">
+        <i class="fas fa-edit"></i> Administrar Servicios & Precios
+      </button>
+    </div>
+
+    <!-- Tab 1: Chilean Calendar & Appointments View -->
+    <div id="adminTabCalendar">
+      <!-- Calendar Color Legend -->
+      <div class="calendar-legend-bar">
+        <div class="legend-item">
+          <div class="legend-color-box legend-weekday"></div>
+          <span>Lunes a Viernes (Días Hábiles)</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color-box legend-saturday"></div>
+          <span>Sábados (Jornada Alta Demanda)</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color-box legend-sunday"></div>
+          <span>Domingos (Descanso / Horario Especial)</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color-box legend-holiday"></div>
+          <span>Feriados Nacionales de Chile</span>
+        </div>
+      </div>
+
+      <!-- Calendar Main Card -->
+      <div class="calendar-card">
+        <div class="calendar-controls">
+          <h3 id="calendarMonthTitle">Mes 2026</h3>
+          <div class="calendar-nav-btns">
+            <button class="cal-btn" onclick="prevMonth()"><i class="fas fa-chevron-left"></i></button>
+            <button class="cal-btn" onclick="nextMonth()"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+
+        <div class="calendar-weekdays-header">
+          <div>Lun</div>
+          <div>Mar</div>
+          <div>Mié</div>
+          <div>Jue</div>
+          <div>Vie</div>
+          <div>Sáb</div>
+          <div>Dom</div>
+        </div>
+
+        <div class="calendar-days-grid" id="calendarDaysGrid">
+          <!-- Rendered via app.js -->
+        </div>
+      </div>
+
+      <!-- Appointments List Table -->
+      <div class="admin-table-card">
+        <div style="display:flex; justify-between; align-items:center; margin-bottom: 16px; flex-wrap:wrap; gap:12px;">
+          <h3 style="font-size:1.4rem; color:var(--primary-dark);">
+            <i class="fas fa-list-alt"></i> Citas Reservadas en Salón
+            <small id="selectedDateFilterInfo" style="font-size: 0.85rem; color: var(--text-muted); font-weight:normal; margin-left:10px;">Todas las citas</small>
+          </h3>
+          <button class="btn btn-outline" style="padding: 6px 14px; font-size:0.85rem;" onclick="resetBookingDateFilter()">
+            Ver Todas las Citas
+          </button>
+        </div>
+
+        <div class="table-responsive">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Fecha & Hora</th>
+                <th>Cliente</th>
+                <th>Servicio</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="bookingsTableBody">
+              <!-- Rendered via app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: Autoadministrable Services Editor -->
+    <div id="adminTabServices" style="display: none;">
+      <div class="admin-table-card" style="margin-top:0;">
+        <h3 style="font-size:1.4rem; color:var(--primary-dark); margin-bottom: 20px;">
+          <i class="fas fa-plus-circle"></i> Agregar Nuevo Servicio al Menú
+        </h3>
+        
+        <form id="addServiceForm" onsubmit="addNewServiceFromAdmin(event)" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+          <div class="form-group">
+            <label class="form-label">Nombre del Servicio</label>
+            <input type="text" id="newServiceName" class="form-control" placeholder="Ej: Mechas Babylights" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Categoría</label>
+            <select id="newServiceCategory" class="form-control">
+              <option value="cabello">Cabello & Peluquería</option>
+              <option value="cejas-pestanas">Cejas & Pestañas</option>
+              <option value="faciales-spa">Faciales & Spa</option>
+              <option value="unas">Manicura & Uñas</option>
+              <option value="novias">Novias & Eventos</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Precio ($ CLP)</label>
+            <input type="number" id="newServicePrice" class="form-control" placeholder="25000" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Duración Estimada</label>
+            <input type="text" id="newServiceDuration" class="form-control" placeholder="60 min">
+          </div>
+          <div class="form-group" style="grid-column: 1/-1;">
+            <label class="form-label">Descripción del Servicio</label>
+            <input type="text" id="newServiceDesc" class="form-control" placeholder="Breve descripción del procedimiento e insumos...">
+          </div>
+          <div style="grid-column: 1/-1;">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> Guardar Servicio en Catálogo
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="admin-table-card">
+        <h3 style="font-size:1.4rem; color:var(--primary-dark); margin-bottom: 16px;">
+          <i class="fas fa-th-list"></i> Lista Actual de Servicios Autoadministrables
+        </h3>
+        <div class="table-responsive">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Servicio</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Duración</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody id="servicesAdminTableBody">
+              <!-- Rendered via app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Client Booking Modal -->
+  <div class="modal-overlay" id="bookingModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="far fa-calendar-check"></i> Reservar Hora en Musas Spa</h3>
+        <button class="modal-close" onclick="closeBookingModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="submitBookingForm(event)">
+          <div class="form-group">
+            <label class="form-label">Selecciona el Servicio</label>
+            <select id="bookingServiceSelect" class="form-control">
+              <!-- Options populated dynamically -->
+            </select>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+              <label class="form-label">Fecha deseada</label>
+              <input type="date" id="bookingDate" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Hora aproximada</label>
+              <select id="bookingTime" class="form-control">
+                <option value="10:30">10:30 hrs</option>
+                <option value="11:30">11:30 hrs</option>
+                <option value="12:30">12:30 hrs</option>
+                <option value="15:00">15:00 hrs</option>
+                <option value="16:00">16:00 hrs</option>
+                <option value="17:00">17:00 hrs</option>
+                <option value="18:00">18:00 hrs</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Tu Nombre Completo</label>
+            <input type="text" id="bookingClientName" class="form-control" placeholder="Ej: Constanza Gómez" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Teléfono de Contacto</label>
+            <input type="tel" id="bookingClientPhone" class="form-control" placeholder="+56 9 1234 5678" required>
+          </div>
+
+          <div style="margin-top: 24px;">
+            <button type="submit" class="btn btn-whatsapp" style="width: 100%; padding: 14px; font-size: 1rem;">
+              <i class="fab fa-whatsapp"></i> Confirmar Cita por WhatsApp
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <h3>Musas Salón de Belleza Spa</h3>
+        <p>Tu refugio de bienestar, estilo y belleza en el corazón de Buin. Errázuriz 166.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/musassalondebelleza/" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+          <a href="https://wa.me/56981542607" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://www.facebook.com" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Servicios Populares</h4>
+        <ul class="footer-links">
+          <li><a href="#servicios">Limpieza Facial Profunda</a></li>
+          <li><a href="#servicios">Técnica Balayage</a></li>
+          <li><a href="#servicios">Laminado & Lifting</a></li>
+          <li><a href="#servicios">Uñas Acrílicas</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Atención en Salón</h4>
+        <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 8px;">Errázuriz 166, Buin</p>
+        <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Lun - Sáb: 10:30 a 19:00 hrs</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Musas Salón de Belleza Spa. Todos los derechos reservados.</p>
+      <p>Diseñado por: <a href="https://www.linkedin.com/in/almendra-olate/" target="_blank" class="designer-credit">Almendra Olate</a></p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
