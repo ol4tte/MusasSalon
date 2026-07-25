@@ -4,6 +4,14 @@
    ========================================================================== */
 
 // --- Default Data Repositories ---
+const DEFAULT_CATEGORIES = [
+  { id: 'cabello', name: 'Cabello & Peluquería', icon: 'fas fa-cut' },
+  { id: 'cejas-pestanas', name: 'Cejas & Pestañas', icon: 'fas fa-eye' },
+  { id: 'faciales-spa', name: 'Faciales & Spa', icon: 'fas fa-spa' },
+  { id: 'unas', name: 'Manicura & Uñas', icon: 'fas fa-hand-sparkles' },
+  { id: 'novias', name: 'Novias & Eventos', icon: 'fas fa-heart' }
+];
+
 const DEFAULT_USERS = [
   {
     id: 'usr_super_admin',
@@ -75,6 +83,7 @@ const DEFAULT_BOOKINGS = [
 ];
 
 // --- Application State ---
+let categoriesState = JSON.parse(localStorage.getItem('musas_categories')) || DEFAULT_CATEGORIES;
 let usersState = JSON.parse(localStorage.getItem('musas_users')) || DEFAULT_USERS;
 let galleryState = JSON.parse(localStorage.getItem('musas_gallery')) || DEFAULT_GALLERY_PHOTOS;
 let servicesState = JSON.parse(localStorage.getItem('musas_services')) || DEFAULT_SERVICES;
@@ -92,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function saveData() {
+  localStorage.setItem('musas_categories', JSON.stringify(categoriesState));
   localStorage.setItem('musas_users', JSON.stringify(usersState));
   localStorage.setItem('musas_gallery', JSON.stringify(galleryState));
   localStorage.setItem('musas_services', JSON.stringify(servicesState));
@@ -110,7 +120,7 @@ function updateNoticeElements() {
   if (elConfigInput) elConfigInput.value = adminNotificationEmail;
 }
 
-// --- Auth Toggle (Login vs Register) ---
+// --- Auth Toggle ---
 function showAuthTab(tab) {
   const formLogin = document.getElementById('formLogin');
   const formReg = document.getElementById('formRegister');
@@ -130,7 +140,7 @@ function showAuthTab(tab) {
   }
 }
 
-// --- Auth Logic & Session ---
+// --- Auth Session ---
 function checkAuthSession() {
   const sessionUserId = sessionStorage.getItem('musas_logged_user_id');
   const loginScreen = document.getElementById('loginScreen');
@@ -144,13 +154,11 @@ function checkAuthSession() {
     loginScreen.style.display = 'none';
     dashboardWrapper.style.display = 'block';
 
-    // Set User Badge Header
     const badge = document.getElementById('currentUserBadge');
     if (badge) {
       badge.innerHTML = `<i class="fas fa-user-shield"></i> ${loggedInUser.email} (${loggedInUser.role})`;
     }
 
-    // Toggle Super Admin specific buttons
     const superAdminElements = document.querySelectorAll('.super-admin-only');
     superAdminElements.forEach(el => {
       el.style.display = loggedInUser.superAdmin ? 'inline-flex' : 'none';
@@ -171,36 +179,32 @@ function handleAdminLogin(event) {
   const password = document.getElementById('loginPasswordInput').value.trim();
   const errorMsg = document.getElementById('loginErrorMsg');
 
-  // Verify Team Password
   if (password !== 'EquipoM-1') {
-    errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Contraseña de equipo incorrecta. La contraseña es <strong>EquipoM-1</strong>.';
+    errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Contraseña de equipo incorrecta.';
     errorMsg.style.display = 'block';
     return;
   }
 
-  // Find Account
   const account = usersState.find(u => u.email.toLowerCase() === email);
 
   if (!account) {
-    errorMsg.innerHTML = `<i class="fas fa-exclamation-circle"></i> No existe una cuenta registrada con el correo <strong>${email}</strong>. Puedes registrarte en la pestaña "Crear Cuenta".`;
+    errorMsg.innerHTML = `<i class="fas fa-exclamation-circle"></i> No existe una cuenta registrada con <strong>${email}</strong>.`;
     errorMsg.style.display = 'block';
     return;
   }
 
-  // Check Approval Status
   if (account.status === 'pendiente') {
-    errorMsg.innerHTML = `<i class="fas fa-clock"></i> Tu cuenta está <strong>pendiente de aprobación</strong> por la Administradora (<strong>${adminNotificationEmail}</strong>). Se ha enviado un correo para autorizar tu ingreso.`;
+    errorMsg.innerHTML = `<i class="fas fa-clock"></i> Tu cuenta está <strong>pendiente de aprobación</strong> por la Administradora (${adminNotificationEmail}).`;
     errorMsg.style.display = 'block';
     return;
   }
 
   if (account.status === 'rechazado') {
-    errorMsg.innerHTML = `<i class="fas fa-times-circle"></i> El acceso para este usuario no fue aprobado por la Administradora. Contacta a ${adminNotificationEmail}.`;
+    errorMsg.innerHTML = `<i class="fas fa-times-circle"></i> El acceso para este usuario no fue aprobado.`;
     errorMsg.style.display = 'block';
     return;
   }
 
-  // Success Login
   sessionStorage.setItem('musas_logged_user_id', account.id);
   loggedInUser = account;
   errorMsg.style.display = 'none';
@@ -219,7 +223,6 @@ function handleAccountRegistration(event) {
     return;
   }
 
-  // Check duplicate email
   const existing = usersState.find(u => u.email.toLowerCase() === email);
   if (existing) {
     alert(`El correo ${email} ya se encuentra registrado.`);
@@ -240,10 +243,8 @@ function handleAccountRegistration(event) {
   usersState.push(newUser);
   saveData();
 
-  // Simulate Email Notification sent to Administrator (ol4tte@gmail.com)
   alert(`¡Cuenta solicitada con éxito!\n\n📧 NOTIFICACIÓN ENVIADA A: ${adminNotificationEmail}\n\nEstimada Administradora, ${name} (${email}) ha solicitado acceso al Panel con el rol de "${role}". Revisa el panel para autorizar su ingreso.`);
 
-  // Reset form & return to login
   document.getElementById('formRegister').reset();
   showAuthTab('login');
   document.getElementById('loginEmailInput').value = email;
@@ -258,6 +259,8 @@ function handleAdminLogout() {
 
 // --- Dashboard Initializer ---
 function initDashboard() {
+  populateCategoryDropdowns();
+  renderCategoriesAdminTable();
   renderChileanCalendar();
   renderBookingsTable();
   renderServicesAdminTable();
@@ -273,7 +276,7 @@ function formatCLP(amount) {
 
 // --- Tab Navigation ---
 function switchTab(tabName) {
-  const tabs = ['calendar', 'services', 'addBooking', 'photos', 'users', 'config'];
+  const tabs = ['calendar', 'services', 'categories', 'addBooking', 'photos', 'users', 'config'];
   
   tabs.forEach(t => {
     const btn = document.getElementById('tabBtn' + t.charAt(0).toUpperCase() + t.slice(1));
@@ -286,6 +289,119 @@ function switchTab(tabName) {
   const activeSec = document.getElementById('sec' + tabName.charAt(0).toUpperCase() + tabName.slice(1));
   if (activeBtn) activeBtn.classList.add('active');
   if (activeSec) activeSec.style.display = 'block';
+}
+
+// --- CATEGORY MANAGER (Gestor de Categorías) ---
+function populateCategoryDropdowns() {
+  const selects = [
+    document.getElementById('newServCategory'),
+    document.getElementById('editServCategory')
+  ];
+
+  selects.forEach(select => {
+    if (!select) return;
+    const currentVal = select.value;
+    select.innerHTML = categoriesState.map(c => `
+      <option value="${c.id}">${c.name}</option>
+    `).join('');
+    if (currentVal) select.value = currentVal;
+  });
+}
+
+function renderCategoriesAdminTable() {
+  const tbody = document.getElementById('adminCategoriesTbody');
+  if (!tbody) return;
+
+  tbody.innerHTML = categoriesState.map(c => `
+    <tr>
+      <td><strong>${c.name}</strong></td>
+      <td><i class="${c.icon || 'fas fa-tag'}"></i> <small style="color:var(--text-muted); font-family:monospace;">${c.icon || 'fas fa-tag'}</small></td>
+      <td><span class="service-badge" style="margin:0;">${c.id}</span></td>
+      <td style="display:flex; gap:6px;">
+        <button class="btn btn-outline" style="padding: 4px 10px; font-size:0.775rem;" onclick="openEditCategoryModal('${c.id}')">
+          <i class="fas fa-pencil-alt"></i> Editar
+        </button>
+        <button class="btn btn-admin" style="padding: 4px 10px; font-size:0.775rem; color:#C5221F;" onclick="deleteCategory('${c.id}')">
+          <i class="fas fa-trash"></i> Eliminar
+        </button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function handleAddNewCategory(event) {
+  event.preventDefault();
+  const name = document.getElementById('newCatName').value.trim();
+  const icon = document.getElementById('newCatIcon').value.trim() || 'fas fa-tag';
+
+  if (!name) return;
+
+  const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+  if (categoriesState.some(c => c.id === id)) {
+    alert('Ya existe una categoría con este nombre.');
+    return;
+  }
+
+  const newCat = { id, name, icon };
+  categoriesState.push(newCat);
+  saveData();
+
+  renderCategoriesAdminTable();
+  populateCategoryDropdowns();
+  document.getElementById('newCatName').value = '';
+  document.getElementById('newCatIcon').value = '';
+
+  alert(`¡Categoría "${name}" agregada con éxito!`);
+}
+
+function openEditCategoryModal(catId) {
+  const c = categoriesState.find(item => item.id === catId);
+  if (!c) return;
+
+  document.getElementById('editCatId').value = c.id;
+  document.getElementById('editCatName').value = c.name;
+  document.getElementById('editCatIcon').value = c.icon || 'fas fa-tag';
+
+  const modal = document.getElementById('editCategoryModal');
+  if (modal) modal.classList.add('active');
+}
+
+function closeEditCategoryModal() {
+  const modal = document.getElementById('editCategoryModal');
+  if (modal) modal.classList.remove('active');
+}
+
+function handleSaveEditedCategory(event) {
+  event.preventDefault();
+  const id = document.getElementById('editCatId').value;
+  const c = categoriesState.find(item => item.id === id);
+
+  if (!c) return;
+
+  c.name = document.getElementById('editCatName').value.trim();
+  c.icon = document.getElementById('editCatIcon').value.trim() || 'fas fa-tag';
+
+  saveData();
+  renderCategoriesAdminTable();
+  populateCategoryDropdowns();
+  closeEditCategoryModal();
+
+  alert('¡Categoría actualizada exitosamente!');
+}
+
+function deleteCategory(catId) {
+  if (categoriesState.length <= 1) {
+    alert('Debe existir al menos una categoría en el sistema.');
+    return;
+  }
+
+  if (confirm('¿Desea eliminar esta categoría?')) {
+    categoriesState = categoriesState.filter(c => c.id !== catId);
+    saveData();
+    renderCategoriesAdminTable();
+    populateCategoryDropdowns();
+  }
 }
 
 // --- Chilean Calendar Engine ---
@@ -433,18 +549,26 @@ function deleteBooking(bookingId) {
   }
 }
 
-// --- Autoadministrable Services ---
+// --- Autoadministrable Services Engine ---
+function getCategoryName(catId) {
+  const cat = categoriesState.find(c => c.id === catId);
+  return cat ? cat.name : catId;
+}
+
 function renderServicesAdminTable() {
   const tbody = document.getElementById('adminServicesTbody');
   if (!tbody) return;
 
   tbody.innerHTML = servicesState.map(s => `
     <tr>
-      <td><strong>${s.name}</strong></td>
-      <td><span class="service-badge" style="margin:0;">${s.category}</span></td>
+      <td><strong>${s.name}</strong> ${s.badge ? `<span class="service-badge" style="margin:0; font-size:0.65rem;">${s.badge}</span>` : ''}</td>
+      <td><span class="service-badge" style="margin:0;">${getCategoryName(s.category)}</span></td>
       <td><strong>${formatCLP(s.price)}</strong></td>
       <td>${s.duration}</td>
-      <td>
+      <td style="display:flex; gap:6px;">
+        <button class="btn btn-outline" style="padding: 4px 10px; font-size:0.775rem;" onclick="openEditServiceModal('${s.id}')">
+          <i class="fas fa-pencil-alt"></i> Editar
+        </button>
         <button class="btn btn-admin" style="padding: 4px 10px; font-size:0.775rem; color:#C5221F;" onclick="deleteService('${s.id}')">
           <i class="fas fa-trash"></i> Eliminar
         </button>
@@ -484,6 +608,49 @@ function handleAddNewService(event) {
   document.getElementById('newServDesc').value = '';
 
   alert('¡Servicio añadido exitosamente al sitio web público!');
+}
+
+function openEditServiceModal(serviceId) {
+  const s = servicesState.find(item => item.id === serviceId);
+  if (!s) return;
+
+  document.getElementById('editServId').value = s.id;
+  document.getElementById('editServName').value = s.name;
+  document.getElementById('editServCategory').value = s.category;
+  document.getElementById('editServPrice').value = s.price;
+  document.getElementById('editServDuration').value = s.duration || '';
+  document.getElementById('editServDesc').value = s.desc || '';
+  document.getElementById('editServBadge').value = s.badge || '';
+
+  const modal = document.getElementById('editServiceModal');
+  if (modal) modal.classList.add('active');
+}
+
+function closeEditServiceModal() {
+  const modal = document.getElementById('editServiceModal');
+  if (modal) modal.classList.remove('active');
+}
+
+function handleSaveEditedService(event) {
+  event.preventDefault();
+  const id = document.getElementById('editServId').value;
+  const s = servicesState.find(item => item.id === id);
+
+  if (!s) return;
+
+  s.name = document.getElementById('editServName').value.trim();
+  s.category = document.getElementById('editServCategory').value;
+  s.price = parseInt(document.getElementById('editServPrice').value);
+  s.duration = document.getElementById('editServDuration').value.trim() || '60 min';
+  s.desc = document.getElementById('editServDesc').value.trim();
+  s.badge = document.getElementById('editServBadge').value.trim() || null;
+
+  saveData();
+  renderServicesAdminTable();
+  populateManualBookingServiceSelect();
+  closeEditServiceModal();
+
+  alert('¡Servicio actualizado exitosamente!');
 }
 
 function deleteService(serviceId) {

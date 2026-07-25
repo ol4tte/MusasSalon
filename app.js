@@ -1,7 +1,15 @@
 /* ==========================================================================
    Musas Salón de Belleza Spa - Public Client Application (app.js)
-   Handles Catalog, Category Filters, Booking Modal & WhatsApp Flow
+   Handles Catalog, Dynamic Category Tabs, Booking Modal & WhatsApp Flow
    ========================================================================== */
+
+const DEFAULT_CATEGORIES = [
+  { id: 'cabello', name: 'Cabello & Peluquería', icon: 'fas fa-cut' },
+  { id: 'cejas-pestanas', name: 'Cejas & Pestañas', icon: 'fas fa-eye' },
+  { id: 'faciales-spa', name: 'Faciales & Spa', icon: 'fas fa-spa' },
+  { id: 'unas', name: 'Manicura & Uñas', icon: 'fas fa-hand-sparkles' },
+  { id: 'novias', name: 'Novias & Eventos', icon: 'fas fa-heart' }
+];
 
 const DEFAULT_SERVICES = [
   { id: 's1', category: 'cabello', name: 'Técnica Balayage', price: 45000, duration: '180 min', desc: 'Degradado de color personalizado y nutrición para un look luminoso.', badge: 'Destacado' },
@@ -26,6 +34,7 @@ const DEFAULT_BOOKINGS = [
 ];
 
 // --- State Management ---
+let categoriesState = JSON.parse(localStorage.getItem('musas_categories')) || DEFAULT_CATEGORIES;
 let servicesState = JSON.parse(localStorage.getItem('musas_services')) || DEFAULT_SERVICES;
 let bookingsState = JSON.parse(localStorage.getItem('musas_bookings')) || DEFAULT_BOOKINGS;
 
@@ -33,6 +42,7 @@ let activeCategory = 'all';
 
 // --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
+  renderCategoryTabs();
   renderServicesCatalog();
   populateBookingServiceSelect();
   setupEventListeners();
@@ -45,6 +55,22 @@ function formatCLP(amount) {
 
 function saveBookingsState() {
   localStorage.setItem('musas_bookings', JSON.stringify(bookingsState));
+}
+
+// --- Dynamic Category Tabs ---
+function renderCategoryTabs() {
+  const container = document.querySelector('.category-tabs');
+  if (!container) return;
+
+  container.innerHTML = `
+    <button class="tab-btn ${activeCategory === 'all' ? 'active' : ''}" onclick="filterCategory('all', this)">
+      Todos los Servicios
+    </button>
+  ` + categoriesState.map(c => `
+    <button class="tab-btn ${activeCategory === c.id ? 'active' : ''}" onclick="filterCategory('${c.id}', this)">
+      <i class="${c.icon || 'fas fa-tag'}"></i> ${c.name}
+    </button>
+  `).join('');
 }
 
 // --- Public Services Catalog ---
@@ -126,7 +152,6 @@ function submitBookingForm(event) {
 
   const serviceObj = servicesState.find(s => s.id === serviceId) || { name: 'Servicio Musas', price: 0 };
 
-  // Save new booking to system
   const newBooking = {
     id: 'b_' + Date.now(),
     date,
@@ -140,7 +165,6 @@ function submitBookingForm(event) {
   bookingsState.push(newBooking);
   saveBookingsState();
 
-  // Create WhatsApp URL for Salon
   const phoneSalón = '56981542607';
   const textMessage = `¡Hola Musas Salón de Belleza Spa! 🌸%0A%0AQuisiera agendar una cita:%0A✨ *Servicio:* ${encodeURIComponent(serviceObj.name)} (${formatCLP(serviceObj.price)})%0A📅 *Fecha:* ${date}%0A⏰ *Hora:* ${time} hrs%0A👤 *Nombre:* ${encodeURIComponent(clientName)}%0A📞 *Teléfono:* ${encodeURIComponent(phone)}%0A%0AQuedo atenta a la confirmación. ¡Muchas gracias!`;
 
@@ -151,7 +175,6 @@ function submitBookingForm(event) {
 }
 
 function setupEventListeners() {
-  // Mobile Nav Toggle
   const toggleBtn = document.getElementById('mobileToggle');
   const navLinks = document.getElementById('navLinks');
   if (toggleBtn && navLinks) {
