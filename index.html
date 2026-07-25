@@ -46,9 +46,9 @@
       </nav>
 
       <div class="nav-actions">
-        <button class="btn btn-admin" onclick="toggleAdminView()" title="Acceso al local">
-          <i class="fas fa-store"></i> Modo Local / Admin
-        </button>
+        <a href="admin.html" class="btn btn-admin" title="Acceso exclusivo personal del salón" target="_blank">
+          <i class="fas fa-store"></i> Acceso Personal
+        </a>
         <button class="btn btn-primary" onclick="openBookingModal()">
           <i class="far fa-calendar-alt"></i> Agendar Hora
         </button>
@@ -325,174 +325,6 @@
     </div>
   </section>
 
-  <!-- LOCAL SALÓN ADMIN PANEL & CHILEAN CALENDAR -->
-  <section class="admin-section" id="adminSection">
-    <div class="admin-header">
-      <div class="admin-title-group">
-        <h2><i class="fas fa-store-alt"></i> Panel Local - Musas Salón de Belleza</h2>
-        <p>Gestión interna de citas agendadas, calendario chileno y edición autoadministrable de servicios.</p>
-      </div>
-      <div>
-        <button class="btn btn-outline" onclick="toggleAdminView()">
-          <i class="fas fa-times"></i> Cerrar Vista Admin
-        </button>
-      </div>
-    </div>
-
-    <!-- Admin Tab Controls -->
-    <div class="admin-tab-nav">
-      <button class="admin-tab-btn active" onclick="switchAdminTab('calendar', this)">
-        <i class="far fa-calendar-alt"></i> Calendario Chileno de Citas
-      </button>
-      <button class="admin-tab-btn" onclick="switchAdminTab('services', this)">
-        <i class="fas fa-edit"></i> Administrar Servicios & Precios
-      </button>
-    </div>
-
-    <!-- Tab 1: Chilean Calendar & Appointments View -->
-    <div id="adminTabCalendar">
-      <!-- Calendar Color Legend -->
-      <div class="calendar-legend-bar">
-        <div class="legend-item">
-          <div class="legend-color-box legend-weekday"></div>
-          <span>Lunes a Viernes (Días Hábiles)</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color-box legend-saturday"></div>
-          <span>Sábados (Jornada Alta Demanda)</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color-box legend-sunday"></div>
-          <span>Domingos (Descanso / Horario Especial)</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color-box legend-holiday"></div>
-          <span>Feriados Nacionales de Chile</span>
-        </div>
-      </div>
-
-      <!-- Calendar Main Card -->
-      <div class="calendar-card">
-        <div class="calendar-controls">
-          <h3 id="calendarMonthTitle">Mes 2026</h3>
-          <div class="calendar-nav-btns">
-            <button class="cal-btn" onclick="prevMonth()"><i class="fas fa-chevron-left"></i></button>
-            <button class="cal-btn" onclick="nextMonth()"><i class="fas fa-chevron-right"></i></button>
-          </div>
-        </div>
-
-        <div class="calendar-weekdays-header">
-          <div>Lun</div>
-          <div>Mar</div>
-          <div>Mié</div>
-          <div>Jue</div>
-          <div>Vie</div>
-          <div>Sáb</div>
-          <div>Dom</div>
-        </div>
-
-        <div class="calendar-days-grid" id="calendarDaysGrid">
-          <!-- Rendered via app.js -->
-        </div>
-      </div>
-
-      <!-- Appointments List Table -->
-      <div class="admin-table-card">
-        <div style="display:flex; justify-between; align-items:center; margin-bottom: 16px; flex-wrap:wrap; gap:12px;">
-          <h3 style="font-size:1.4rem; color:var(--primary-dark);">
-            <i class="fas fa-list-alt"></i> Citas Reservadas en Salón
-            <small id="selectedDateFilterInfo" style="font-size: 0.85rem; color: var(--text-muted); font-weight:normal; margin-left:10px;">Todas las citas</small>
-          </h3>
-          <button class="btn btn-outline" style="padding: 6px 14px; font-size:0.85rem;" onclick="resetBookingDateFilter()">
-            Ver Todas las Citas
-          </button>
-        </div>
-
-        <div class="table-responsive">
-          <table class="custom-table">
-            <thead>
-              <tr>
-                <th>Fecha & Hora</th>
-                <th>Cliente</th>
-                <th>Servicio</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody id="bookingsTableBody">
-              <!-- Rendered via app.js -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tab 2: Autoadministrable Services Editor -->
-    <div id="adminTabServices" style="display: none;">
-      <div class="admin-table-card" style="margin-top:0;">
-        <h3 style="font-size:1.4rem; color:var(--primary-dark); margin-bottom: 20px;">
-          <i class="fas fa-plus-circle"></i> Agregar Nuevo Servicio al Menú
-        </h3>
-        
-        <form id="addServiceForm" onsubmit="addNewServiceFromAdmin(event)" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
-          <div class="form-group">
-            <label class="form-label">Nombre del Servicio</label>
-            <input type="text" id="newServiceName" class="form-control" placeholder="Ej: Mechas Babylights" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Categoría</label>
-            <select id="newServiceCategory" class="form-control">
-              <option value="cabello">Cabello & Peluquería</option>
-              <option value="cejas-pestanas">Cejas & Pestañas</option>
-              <option value="faciales-spa">Faciales & Spa</option>
-              <option value="unas">Manicura & Uñas</option>
-              <option value="novias">Novias & Eventos</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Precio ($ CLP)</label>
-            <input type="number" id="newServicePrice" class="form-control" placeholder="25000" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Duración Estimada</label>
-            <input type="text" id="newServiceDuration" class="form-control" placeholder="60 min">
-          </div>
-          <div class="form-group" style="grid-column: 1/-1;">
-            <label class="form-label">Descripción del Servicio</label>
-            <input type="text" id="newServiceDesc" class="form-control" placeholder="Breve descripción del procedimiento e insumos...">
-          </div>
-          <div style="grid-column: 1/-1;">
-            <button type="submit" class="btn btn-primary">
-              <i class="fas fa-save"></i> Guardar Servicio en Catálogo
-            </button>
-          </div>
-        </form>
-      </div>
-
-      <div class="admin-table-card">
-        <h3 style="font-size:1.4rem; color:var(--primary-dark); margin-bottom: 16px;">
-          <i class="fas fa-th-list"></i> Lista Actual de Servicios Autoadministrables
-        </h3>
-        <div class="table-responsive">
-          <table class="custom-table">
-            <thead>
-              <tr>
-                <th>Servicio</th>
-                <th>Categoría</th>
-                <th>Precio</th>
-                <th>Duración</th>
-                <th>Acción</th>
-              </tr>
-            </thead>
-            <tbody id="servicesAdminTableBody">
-              <!-- Rendered via app.js -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Client Booking Modal -->
   <div class="modal-overlay" id="bookingModal">
     <div class="modal-container">
@@ -574,7 +406,10 @@
       <div>
         <h4 class="footer-heading">Atención en Salón</h4>
         <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 8px;">Errázuriz 166, Buin</p>
-        <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Lun - Sáb: 10:30 a 19:00 hrs</p>
+        <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 12px;">Lun - Sáb: 10:30 a 19:00 hrs</p>
+        <a href="admin.html" style="color: var(--accent-gold); font-size: 0.85rem; text-decoration: none;" target="_blank">
+          <i class="fas fa-lock"></i> Acceso Privado Personal Salón
+        </a>
       </div>
     </div>
 

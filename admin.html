@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración | Musas Salón de Belleza Spa</title>
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-body-bg">
+
+  <!-- LOGIN & REGISTRATION SCREEN -->
+  <div id="loginScreen" class="admin-login-wrapper">
+    <div class="login-card" style="max-width: 480px;">
+      <div class="login-header">
+        <div class="logo-icon-lg"><i class="fas fa-crown"></i></div>
+        <h2>Musas Salón & Spa</h2>
+        <p>Portal del Personal & Administración</p>
+      </div>
+
+      <!-- Auth Tabs: Login vs Register -->
+      <div class="auth-toggle-tabs">
+        <button class="auth-toggle-btn active" id="btnToggleLogin" onclick="showAuthTab('login')">
+          <i class="fas fa-key"></i> Iniciar Sesión
+        </button>
+        <button class="auth-toggle-btn" id="btnToggleRegister" onclick="showAuthTab('register')">
+          <i class="fas fa-user-plus"></i> Crear Cuenta
+        </button>
+      </div>
+
+      <!-- Form 1: LOGIN -->
+      <form id="formLogin" onsubmit="handleAdminLogin(event)" class="login-form">
+        <div class="form-group">
+          <label class="form-label"><i class="fas fa-envelope"></i> Correo Electrónico</label>
+          <input type="email" id="loginEmailInput" class="form-control" placeholder="correo@ejemplo.com" required autofocus>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label"><i class="fas fa-lock"></i> Contraseña de Equipo</label>
+          <input type="password" id="loginPasswordInput" class="form-control" placeholder="••••••••" required>
+        </div>
+
+        <div id="loginErrorMsg" class="login-error-alert" style="display: none;"></div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+          <i class="fas fa-sign-in-alt"></i> Ingresar al Panel del Salón
+        </button>
+      </form>
+
+      <!-- Form 2: CREAR CUENTA (REGISTRO) -->
+      <form id="formRegister" onsubmit="handleAccountRegistration(event)" class="login-form" style="display: none;">
+        <div class="form-group">
+          <label class="form-label"><i class="fas fa-user"></i> Nombre Completo</label>
+          <input type="text" id="regNameInput" class="form-control" placeholder="Ej: Marcela González" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label"><i class="fas fa-envelope"></i> Correo Electrónico</label>
+          <input type="email" id="regEmailInput" class="form-control" placeholder="tu-correo@ejemplo.com" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label"><i class="fas fa-briefcase"></i> Rol Solicitado en Salón</label>
+          <select id="regRoleInput" class="form-control">
+            <option value="Esteticista & Spa">Esteticista & Spa</option>
+            <option value="Peluquera / Estilista">Peluquera / Estilista</option>
+            <option value="Manicurista">Manicurista</option>
+            <option value="Recepcionista">Recepcionista</option>
+            <option value="Administradora">Administradora</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label"><i class="fas fa-lock"></i> Contraseña de Equipo</label>
+          <input type="password" id="regPasswordInput" class="form-control" placeholder="••••••••" required>
+        </div>
+
+        <div class="form-notice-info">
+          <i class="fas fa-paper-plane"></i> Al solicitar tu cuenta, se enviará una notificación automática a la Administradora para aprobar tu acceso.
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 14px;">
+          <i class="fas fa-user-check"></i> Solicitar Creación de Cuenta
+        </button>
+      </form>
+
+      <div class="login-footer">
+        <a href="index.html" class="link-back-site"><i class="fas fa-arrow-left"></i> Volver al sitio público</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD WRAPPER -->
+  <div id="dashboardWrapper" class="admin-dashboard-layout" style="display: none;">
+    <!-- Top Bar -->
+    <header class="admin-topbar">
+      <div class="admin-topbar-container">
+        <div class="admin-brand">
+          <div class="logo-icon-sm"><i class="fas fa-crown"></i></div>
+          <div>
+            <h1 class="admin-brand-title">Musas Salón - Panel de Control</h1>
+            <span class="admin-badge-role" id="currentUserBadge"><i class="fas fa-shield-alt"></i> ol4tte@gmail.com (Super Administradora)</span>
+          </div>
+        </div>
+
+        <div class="admin-user-actions">
+          <a href="index.html" class="btn btn-outline" style="font-size: 0.85rem;" target="_blank">
+            <i class="fas fa-external-link-alt"></i> Ver Sitio Web Público
+          </a>
+          <button class="btn btn-admin" onclick="handleAdminLogout()" style="font-size: 0.85rem; color: #C5221F; border-color: #FAD2CF;">
+            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="admin-main-container">
+      
+      <!-- Admin Tab Nav -->
+      <div class="admin-tab-nav" style="margin-top: 24px;">
+        <button class="admin-tab-btn active" id="tabBtnCal" onclick="switchTab('calendar')">
+          <i class="far fa-calendar-alt"></i> Calendario Chileno & Citas
+        </button>
+        <button class="admin-tab-btn" id="tabBtnServ" onclick="switchTab('services')">
+          <i class="fas fa-cut"></i> Servicios & Precios
+        </button>
+        <button class="admin-tab-btn" id="tabBtnAdd" onclick="switchTab('addBooking')">
+          <i class="fas fa-calendar-plus"></i> Cita Manual
+        </button>
+        <!-- Super Admin Restricted Tabs -->
+        <button class="admin-tab-btn super-admin-only" id="tabBtnPhotos" onclick="switchTab('photos')">
+          <i class="fas fa-images"></i> Editar Fotos & Banner
+        </button>
+        <button class="admin-tab-btn super-admin-only" id="tabBtnUsers" onclick="switchTab('users')">
+          <i class="fas fa-users-cog"></i> Gestión de Trabajadoras & Cuentas <span id="pendingUsersBadgeCount" class="badge-pending-count" style="display:none;">0</span>
+        </button>
+        <button class="admin-tab-btn super-admin-only" id="tabBtnConfig" onclick="switchTab('config')">
+          <i class="fas fa-cog"></i> Configuración de Correo
+        </button>
+      </div>
+
+      <!-- TAB 1: CALENDARIO CHILENO Y AGENDA -->
+      <section id="secCalendar">
+        <div class="calendar-legend-bar">
+          <div class="legend-item">
+            <div class="legend-color-box legend-weekday"></div>
+            <span>Lunes a Viernes (Días Hábiles)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color-box legend-saturday"></div>
+            <span>Sábados (Jornada Alta Demanda)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color-box legend-sunday"></div>
+            <span>Domingos (Descanso / Horario Especial)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color-box legend-holiday"></div>
+            <span>Feriados Nacionales de Chile</span>
+          </div>
+        </div>
+
+        <div class="calendar-card">
+          <div class="calendar-controls">
+            <h3 id="calMonthTitle">Cargando mes...</h3>
+            <div class="calendar-nav-btns">
+              <button class="cal-btn" onclick="prevMonth()"><i class="fas fa-chevron-left"></i></button>
+              <button class="cal-btn" onclick="nextMonth()"><i class="fas fa-chevron-right"></i></button>
+            </div>
+          </div>
+
+          <div class="calendar-weekdays-header">
+            <div>Lun</div>
+            <div>Mar</div>
+            <div>Mié</div>
+            <div>Jue</div>
+            <div>Vie</div>
+            <div>Sáb</div>
+            <div>Dom</div>
+          </div>
+
+          <div class="calendar-days-grid" id="calDaysGrid">
+            <!-- Rendered by admin.js -->
+          </div>
+        </div>
+
+        <div class="admin-table-card">
+          <div style="display:flex; justify-between; align-items:center; margin-bottom: 20px; flex-wrap:wrap; gap:12px;">
+            <div>
+              <h3 style="font-size:1.4rem; color:var(--primary-dark);">
+                <i class="fas fa-list-alt"></i> Citas Agendadas en Salón
+              </h3>
+              <p style="font-size:0.85rem; color:var(--text-muted);" id="dateFilterLabel">Mostrando todas las citas</p>
+            </div>
+            <div>
+              <button class="btn btn-outline" style="padding: 6px 14px; font-size:0.85rem;" onclick="resetDateFilter()">
+                Ver Citas de Todas las Fechas
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Fecha & Hora</th>
+                  <th>Cliente</th>
+                  <th>Servicio</th>
+                  <th>Teléfono</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="adminBookingsTbody">
+                <!-- Rendered by admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: SERVICIOS Y PRECIOS -->
+      <section id="secServices" style="display: none;">
+        <div class="admin-table-card">
+          <h3 style="font-size:1.4rem; color:var(--primary-dark); margin-bottom: 20px;">
+            <i class="fas fa-plus-circle"></i> Agregar Nuevo Servicio al Sitio Web
+          </h3>
+
+          <form onsubmit="handleAddNewService(event)" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+            <div class="form-group">
+              <label class="form-label">Nombre del Servicio</label>
+              <input type="text" id="newServName" class="form-control" placeholder="Ej: Mechas Balayage" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Categoría</label>
+              <select id="newServCategory" class="form-control">
+                <option value="cabello">Cabello & Peluquería</option>
+                <option value="cejas-pestanas">Cejas & Pestañas</option>
+                <option value="faciales-spa">Faciales & Spa</option>
+                <option value="unas">Manicura & Uñas</option>
+                <option value="novias">Novias & Eventos</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Precio ($ CLP)</label>
+              <input type="number" id="newServPrice" class="form-control" placeholder="25000" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Duración Estimada</label>
+              <input type="text" id="newServDuration" class="form-control" placeholder="60 min">
+            </div>
+
+            <div class="form-group" style="grid-column: 1/-1;">
+              <label class="form-label">Descripción</label>
+              <input type="text" id="newServDesc" class="form-control" placeholder="Detalles del procedimiento e insumos...">
+            </div>
+
+            <div style="grid-column: 1/-1;">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Publicar Servicio en Sitio Web
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="admin-table-card">
+          <h3 style="font-size:1.4rem; color:var(--primary-dark); margin-bottom: 16px;">
+            <i class="fas fa-list"></i> Catálogo Actual de Servicios
+          </h3>
+
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Servicio</th>
+                  <th>Categoría</th>
+                  <th>Precio ($)</th>
+                  <th>Duración</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="adminServicesTbody">
+                <!-- Rendered by admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: AGENDAR CITA MANUAL -->
+      <section id="secAddBooking" style="display: none;">
+        <div class="admin-table-card" style="max-width: 600px; margin: 0 auto;">
+          <h3 style="font-size:1.4rem; color:var(--primary-dark); margin-bottom: 20px;">
+            <i class="fas fa-calendar-plus"></i> Registrar Cita Presencial o Telefónica
+          </h3>
+
+          <form onsubmit="handleManualBooking(event)">
+            <div class="form-group">
+              <label class="form-label">Seleccionar Servicio</label>
+              <select id="manualBookServiceSelect" class="form-control" required>
+                <!-- Populated via script -->
+              </select>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label class="form-label">Fecha</label>
+                <input type="date" id="manualBookDate" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Hora</label>
+                <select id="manualBookTime" class="form-control" required>
+                  <option value="10:30">10:30 hrs</option>
+                  <option value="11:30">11:30 hrs</option>
+                  <option value="12:30">12:30 hrs</option>
+                  <option value="15:00">15:00 hrs</option>
+                  <option value="16:00">16:00 hrs</option>
+                  <option value="17:00">17:00 hrs</option>
+                  <option value="18:00">18:00 hrs</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Nombre del Cliente</label>
+              <input type="text" id="manualBookClient" class="form-control" placeholder="Nombre completo" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Teléfono de Contacto</label>
+              <input type="tel" id="manualBookPhone" class="form-control" placeholder="+56 9 ..." required>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+              <i class="fas fa-check"></i> Agendar Cita en el Sistema
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- TAB 4: GESTOR DE FOTOS & BANNER (Super Admin) -->
+      <section id="secPhotos" style="display: none;">
+        <div class="admin-table-card">
+          <h3 style="font-size:1.4rem; color:var(--primary-dark); margin-bottom: 20px;">
+            <i class="fas fa-camera"></i> Editar Imágenes del Sitio Web & Galería de Instagram
+          </h3>
+          <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">
+            Como Administradora, puedes actualizar las imágenes destacadas que verán las clientas en el sitio web público.
+          </p>
+
+          <form onsubmit="handleAddGalleryPhoto(event)" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 24px;">
+            <div class="form-group">
+              <label class="form-label">Título / Etiqueta de la Foto</label>
+              <input type="text" id="photoTitleInput" class="form-control" placeholder="Ej: Alisado de Keratina & Brillo" required>
+            </div>
+            <div class="form-group" style="grid-column: span 2;">
+              <label class="form-label">Ruta o URL de la Imagen</label>
+              <input type="text" id="photoUrlInput" class="form-control" placeholder="assets/balayage.png o https://..." required>
+            </div>
+            <div style="align-self: flex-end; margin-bottom: 20px;">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-upload"></i> Publicar Imagen en Galería
+              </button>
+            </div>
+          </form>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;" id="galleryPhotosAdminGrid">
+            <!-- Rendered by admin.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: GESTOR DE TRABAJADORAS & CUENTAS (Super Admin) -->
+      <section id="secUsers" style="display: none;">
+        <div class="admin-table-card">
+          <div style="display:flex; justify-between; align-items:center; margin-bottom: 20px; flex-wrap:wrap; gap:12px;">
+            <div>
+              <h3 style="font-size:1.4rem; color:var(--primary-dark);">
+                <i class="fas fa-users-cog"></i> Cuentas del Personal & Permisos de Acceso
+              </h3>
+              <p style="font-size:0.85rem; color:var(--text-muted);">
+                Como Administradora Principal (<strong id="superAdminEmailLabel">ol4tte@gmail.com</strong>), puedes aprobar o rechazar solicitudes de registro, modificar roles y eliminar cuentas.
+              </p>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Nombre & Email</th>
+                  <th>Rol Asignado</th>
+                  <th>Estado de Cuenta</th>
+                  <th>Notificación</th>
+                  <th>Acciones de Administradora</th>
+                </tr>
+              </thead>
+              <tbody id="usersAdminTbody">
+                <!-- Rendered by admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 6: CONFIGURACIÓN DE CORREO (Super Admin) -->
+      <section id="secConfig" style="display: none;">
+        <div class="admin-table-card" style="max-width: 650px; margin: 0 auto;">
+          <h3 style="font-size:1.4rem; color:var(--primary-dark); margin-bottom: 16px;">
+            <i class="fas fa-envelope-open-text"></i> Configuración del Correo de Notificaciones
+          </h3>
+          <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom: 24px;">
+            Cuando una trabajadora solicite una nueva cuenta, el sistema enviará la solicitud de autorización a este correo.
+          </p>
+
+          <form onsubmit="handleUpdateAdminEmail(event)">
+            <div class="form-group">
+              <label class="form-label"><i class="fas fa-at"></i> Correo de la Administradora Principal</label>
+              <input type="email" id="configAdminEmailInput" class="form-control" value="ol4tte@gmail.com" required>
+            </div>
+
+            <div style="display: flex; gap: 12px; margin-top: 24px;">
+              <button type="submit" class="btn btn-primary" style="flex: 1;">
+                <i class="fas fa-save"></i> Guardar Nuevo Correo
+              </button>
+              <button type="button" class="btn btn-outline" onclick="simulateTestNotificationEmail()">
+                <i class="fas fa-paper-plane"></i> Probar Envío de Correo
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
